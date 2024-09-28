@@ -114,8 +114,7 @@
 \end{figure}
 
 \chapter{クローバー短絡試験}
-クローバー回路の健全性を確認するため、毎年夏のメンテナンス時に短絡試験を行なっている。(図\ref{fig:CrowbarTest})が短絡試験を行う時のセットアップである。短絡電流とクローバー電流を測定する為にCT(PEARSON\texttrademark\, CURRENT MONITOR MODEL 3025)を使用している。
-%
+
 \begin{figure}[htbp]
   %\begin{figure}[!htt]
   \begin{center}
@@ -124,8 +123,8 @@
     \label{fig:CrowbarTest}
   \end{center}
 \end{figure}
-
-テストワイヤー($0.35\,\phi,\, 200\,\mathrm{mm}$の銅線)と短絡のためのギャップは安全の為、短絡試験器の中に収めてる。(図\ref{fig:Tanraku})
+%
+クローバー回路の健全性を確認するため、毎年夏のメンテナンス時に短絡試験を行なっている。(図\ref{fig:CrowbarTest})が短絡試験を行う時のセットアップである。短絡電流とクローバー電流を測定する為にCT(PEARSON\texttrademark\, CURRENT MONITOR MODEL 3025)を使用している。テストワイヤー($0.35\,\phi,\, 200\,\mathrm{mm}$の銅線)と短絡のためのギャップは安全の為、短絡試験器の中に収めてる。(図\ref{fig:Tanraku})
 %
 \begin{figure}[htbp]
   \centering
@@ -149,8 +148,6 @@
 \end{equation}
 %
 となる。今オシロ側はインピーダンスマッチングするため\SI{50}{\ohm}のスルータイプのターミネーターで終端してるから$R_o=R_i=\SI{50}{\ohm}$となって$V_m=V/2$となり、CTで測定された電圧$V$はオシロで測定された電圧$V_m$の2倍になる事に注意。したがって、測定結果は\SI{800}{A\per V}となる。
-
-
 
 \section{短絡試験の等価回路}
 \begin{figure}[htbp]
@@ -316,8 +313,6 @@ $t=t1$でコンデンサの電圧が$V_1$とすると
 
 次に右側のループを考えると、
 
-
-
 \begin{equation}
   L \frac{di(t)}{dt} + R i(t) = 0
 \end{equation}
@@ -342,6 +337,85 @@ $t=t1$でコンデンサの電圧が$V_1$とすると
 \end{equation}
 %
 \chapter{測定データの解析}
+
+\clearpage
+
+\section{physics2練習帳}
+
+\begin{equation}
+  \ab( \frac{1}{2} )\quad
+  \ab[ \frac{1}{2} ]\quad
+  \ab< \frac{1}{2} >\quad
+  \ab| \frac{1}{2} |\quad
+  \ab\| \frac{1}{2} \|\quad
+  \ab\{ \frac{1}{2} \}\quad
+  \sin \ab( \frac{\pi}{2} )
+\end{equation}
+
+微分記号
+%
+\begin{equation}
+  \d x\quad
+  \odv{}{x}\quad
+  \odv{f}{x}\quad
+  \odv[order=n]{f}{x}\quad
+  \odv{f}/{x}\quad
+  \odv*{f(x)}{x}
+\end{equation}
+
+偏微分
+%
+\begin{equation}
+  \pdv{}{x}\quad
+  \pdv{f}{x}\quad
+  \pdv{f}{x, y}\quad
+  \pdv[order=n]{f}{x}\quad
+  \pdv{f}/{x}\quad
+  \pdv*{f(x,y,z)}{x}\quad
+  \pdv[order={2, 1, 2}]{f}{x, y, z}\quad
+\end{equation}
+
+Vector
+%
+\begin{equation}
+  \vb{v}\quad
+  \va{v}\quad
+  \vu{v}\quad
+  \grad \phi\quad
+  \div \bm{x}\quad
+  \rot \bm{x}\quad
+  a \divisionsymbol b\quad
+\end{equation}
+
+operator
+%
+\begin{equation}
+  \Re \ab[ f(z) ]\quad
+  \Im \ab[ f(z) ]\quad
+  \Tr \ab[ A ]\quad
+  \rank \ab[ A ]\quad
+\end{equation}
+
+braket
+%
+\begin{equation}
+  \ket|\psi> \quad
+  \bra<\phi|\quad
+  \braket<\phi|\psi>\quad
+  \ketbra|\psi><\phi|\quad
+  \braket<\psi>\quad
+  \braket<\psi|A|\psi>\quad
+  \ab| { \braket<\psi|A|\psi> } |
+\end{equation}
+
+matrix
+%
+\begin{equation}
+  \mqty{ a&b\\c&d }\quad % 括弧無し
+  \ab( \mqty{ a&b\\c&d }  )\quad % 小括弧()
+  \ab[ \mqty{ a&b\\c&d }  ]\quad % 大括弧[ ]
+  \ab| \mqty{ a&b\\c&d }  |\quad % 行列式| |
+\end{equation}
 
 
 \begin{thebibliography}{9}
