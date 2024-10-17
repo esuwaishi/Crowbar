@@ -1,0 +1,681 @@
+\documentclass[book,openany]{jlreq}
+
+%---------- package ----------% 
+\usepackage{graphicx}
+\usepackage[pdfencoding=auto]{hyperref}
+\usepackage{booktabs}
+%\usepackage{subfig}
+\usepackage{pifont}
+\usepackage{url}
+\usepackage{cite}
+\usepackage{ulem}
+\usepackage{siunitx}
+\usepackage{float}
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable}
+\usepackage{cancel}
+\usepackage{color}
+
+%--- TikZ ---%
+\usepackage{tikz}
+\usepackage{circuitikz}
+\usetikzlibrary{calc}
+
+%--- physics2 ---%
+\usepackage{physics2}
+\usephysicsmodule{ab}   % 括弧サイズの自動調整
+\usephysicsmodule{ab.braket}    % braket記法
+\usephysicsmodule{diagmat}  % 対角行列
+\usephysicsmodule[showleft=2,showtop=2]{xmat}   % n×m行列
+%--- physics2 END ---%
+% 数式環境
+\usepackage{amsmath,amssymb,amsthm}
+% ベクトル
+\usepackage{bm}
+%--- 微分演算子 ---%
+\usepackage{fixdif}
+\usepackage{derivative}
+%--- 微分演算子 END ---%
+% 花文字
+\usepackage{mathrsfs}
+%
+%---------- package END ----------% 
+
+%---------- newcommand ----------% 
+% 積分値の評価
+\newcommand{\eval}[1]{\left.#1\right|}
+% Landau記号
+\newcommand{\order}[1]{\mathcal{O}\ab(#1)}
+%--- physicsパッケージの\vbコマンドを再現 --%
+\makeatletter
+\newcommand\vb{\@ifstar\boldsymbol\mathbf}
+\newcommand\va[1]{\@ifstar{\vec{#1}}{\vec{\mathrm{#1}}}}
+\newcommand\vu[1]{%
+\@ifstar{\hat{\boldsymbol{#1}}}{\hat{\mathbf{#1}}}}
+\makeatother
+%--- physicsパッケージの\vbコマンドを再現 END --%
+%--- 勾配・発散・回転 ---%
+% 勾配
+\DeclareMathOperator{\grad}{\nabla}
+% 発散
+% \divが「÷」と競合するため再定義
+\DeclareMathOperator{\divergence}{\nabla\cdot}
+\let\divisionsymbol\div 
+\renewcommand{\div}{\divergence} 
+% 回転
+\DeclareMathOperator{\rot}{\nabla\times}
+%--- 勾配・発散・回転 END ---%
+% 実部
+\renewcommand{\Re}{\operatorname{Re}}
+% 虚部
+\renewcommand{\Im}{\operatorname{Im}}
+% トレース
+\newcommand{\Tr}{\operatorname{Tr}}
+% rank
+\newcommand{\rank}{\operatorname{rank}}
+% \mqtyコマンド
+\newcommand{\mqty}[1]{\begin{matrix}#1\end{matrix}}
+%
+\renewcommand{\CancelColor}{\color{red}}
+%
+%---------- newcommand END ----------% 
+
+% \usepackage[hang,small,bf]{caption}
+% \usepackage[subrefformat=parens]{subcaption}
+% \captionsetup{compatibility=false}
+
+\theoremstyle{definition}
+\newtheorem{theorem}{定理}[chapter]
+\newtheorem*{theorem*}{定理}
+\newtheorem{definition}[theorem]{定義}
+\newtheorem*{definition*}{定義}
+
+\usepackage{xcolor}
+\hypersetup{
+  bookmarksnumbered=true,
+  colorlinks=true,
+  citecolor=red,
+  linkcolor=blue,
+  urlcolor=orange,
+}
+
+\begin{document}
+\title{TikZ練習帳}
+\author{吉本 伸一}
+\maketitle
+\tableofcontents
+
+\chapter{Lesson 1}
+\section{直線の描画}
+
+\begin{tikzpicture}
+    \draw (1,-1)--(3,-1.5);
+\end{tikzpicture}
+
+閉じた直線（三角形）:\par
+\tikz \draw (0,0)--(2,1)--(3,-1)--cycle;
+
+垂線: \par
+\begin{tikzpicture}
+    \draw (0,0)--(3,-1);
+    \draw (1,1)--($(0,0)!(1,1)!(3,-1)$);
+\end{tikzpicture}
+
+長方形: \par
+\tikz \draw (0,0) rectangle (3,1);
+
+円: \par
+\tikz \draw(0,0) circle (1);
+
+楕円:\par
+\tikz \draw (0,0) circle [x radius=2, y radius=1, rotate=30];
+
+円弧(座標) （偏角1,偏角2,半径）：\par
+\tikz \draw (0,0) arc (30:90:2);
+
+円弧 (座標1) to [偏角1,偏角2] (座標2)：\par
+\tikz \draw (0,0) to [out=60,in=120] (3,0);
+
+円弧 の回転：\par
+\tikz \draw[rotate=45] (0,0) to [out=45,in=135] (2,0);
+
+任意の曲線  (座標1) to [偏角1,偏角2] (座標2)：\par
+\tikz \draw (0,0) to [out=45,in=135] (2,2);
+
+放物線：\par
+\tikz \draw (-2,-2) parabola bend (0,0) (2,-2);
+
+\section{Figure環境での使用}
+
+\begin{figure}[htbp]
+    \centering
+
+    \begin{tikzpicture}
+
+        \tikz \draw (0,0)--(2,1)--(3,-1)--cycle;
+
+    \end{tikzpicture}
+
+    \caption{三角形}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \begin{tabular}{cc}
+
+        \begin{minipage}[t]{0.3\linewidth}
+
+            \begin{tikzpicture}
+                \draw (0,0)--(3,0);
+                \draw (1,1)--($(0,0)!(1,1)!(3,0)$);
+            \end{tikzpicture}
+            \caption{垂線}
+        \end{minipage} &
+
+        \begin{minipage}[t]{0.3\linewidth}
+            \begin{tikzpicture}
+                \draw (0,0) circle [x radius=2, y radius=1, rotate=30];
+            \end{tikzpicture}
+            \caption{円}
+        \end{minipage}
+    \end{tabular}
+\end{figure}
+
+\section{線のスタイル}
+
+直接指定 \par
+\tikz \draw[line width=1pt] (0,0)--(2,0);
+
+ultra thin:0.1pt \par
+\tikz \draw[ultra thin] (0,0)--(2,0);
+
+very thin:0.2pt \par
+\tikz \draw[very thin] (0,0)--(2,0);
+
+thin:0.4pt \par
+\tikz \draw[thin] (0,0)--(2,0);
+
+semithick:0.6pt \par
+\tikz \draw[semithick] (0,0)--(2,0);
+
+thick:0.8pt \par
+\tikz \draw[thick] (0,0)--(2,0);
+
+very thick:1.0pt \par
+\tikz \draw[very thick] (0,0)--(2,0);
+
+ultra thick:1.2pt \par
+\tikz \draw[ultra thick] (0,0)--(2,0);
+
+\subsection{線種}
+
+dotted \par
+\tikz \draw[dotted] (0,0)--(2,0);
+
+densely dotted \par
+\tikz \draw[densely dotted] (0,0)--(2,0);
+
+loosely dotted \par
+\tikz \draw[loosely dotted] (0,0)--(2,0);
+
+dashed \par
+\tikz \draw[dashed] (0,0)--(2,0);
+
+densely dashed \par
+\tikz \draw[densely dashed] (0,0)--(2,0);
+
+loosely dashed \par
+\tikz \draw[loosely dashed] (0,0)--(2,0);
+
+dash dot \par
+\tikz \draw[dash dot] (0,0)--(2,0);
+
+densely dash dot \par
+\tikz \draw[densely dash dot] (0,0)--(2,0);
+
+loosely dash dot \par
+\tikz \draw[loosely dash dot] (0,0)--(2,0);
+
+dash dot dot \par
+\tikz \draw[dash dot dot] (0,0)--(2,0);
+
+densely dash dot dot \par
+\tikz \draw[densely dash dot dot] (0,0)--(2,0);
+
+loosely dash dot dot \par
+\tikz \draw[loosely dash dot dot] (0,0)--(2,0);
+
+直接パターン指定 \par
+\tikz \draw[dash pattern=on 2pt off 3pt on 4pt off 4pt](0,0)--(3.5cm,0);
+
+\subsection{線の修飾}
+
+2重線: \par
+\tikz \draw[double] (0,0)--(2,0);
+
+2重線距離: \par
+\tikz \draw[double distance=5pt] (0,0)--(2,0);
+
+片側矢印: \par
+\tikz \draw[->] (0,0)--(2,0);
+
+片側矢印: \par
+\tikz \draw[<-] (0,0)--(2,0);
+
+両側矢印: \par
+\tikz \draw[<->] (0,0)--(2,0);
+
+2重矢印: \par
+\tikz \draw[->>] (0,0)--(2,0);
+
+2重線矢印: \par
+\tikz \draw[double, <->] (0,0)--(2,0);
+
+cap:round \par
+\tikz \draw[line width=5pt, line cap=round] (0,0)--(2,0);
+
+cap:butt \par
+\tikz \draw[line width=5pt, line cap=butt] (0,0)--(2,0);
+
+cap:rect \par
+\tikz \draw[line width=5pt, line cap=rect] (0,0)--(2,0);
+
+Red:\par
+\tikz \draw[red] (0,0)--(2,0);
+
+Blue:\par
+\tikz \draw[blue] (0,0)--(2,0);
+
+Green:\par
+\tikz \draw[green] (0,0)--(2,0);
+
+Cyan:\par
+\tikz \draw[cyan] (0,0)--(2,0);
+
+Magenta:\par
+\tikz \draw[magenta] (0,0)--(2,0);
+
+Yellow:\par
+\tikz \draw[yellow] (0,0)--(2,0);
+
+White:\par
+\tikz \draw[white] (0,0)--(2,0);
+
+Black:\par
+\tikz \draw[black] (0,0)--(2,0);
+
+Gray:\par
+\tikz \draw[gray] (0,0)--(2,0);
+
+Lightgray:\par
+\tikz \draw[lightgray] (0,0)--(2,0);
+
+Darkgray:\par
+\tikz \draw[darkgray] (0,0)--(2,0);
+
+Olive:\par
+\tikz \draw[olive] (0,0)--(2,0);
+
+Lime:\par
+\tikz \draw[lime] (0,0)--(2,0);
+
+Brown:\par
+\tikz \draw[brown] (0,0)--(2,0);
+
+Orange:\par
+\tikz \draw[orange] (0,0)--(2,0);
+
+Purple:\par
+\tikz \draw[purple] (0,0)--(2,0);
+
+Violet:\par
+\tikz \draw[violet] (0,0)--(2,0);
+
+Pink:\par
+\tikz \draw[pink] (0,0)--(2,0);
+
+Teal:\par
+\tikz \draw[teal] (0,0)--(2,0);
+
+% Bittersweet(定義):\par
+%\tikz \draw[bittersweet] (0,0)--(2,0);
+
+\begin{tikzpicture}
+    \draw (-1.5,0) --(1.5,0); \draw (0,-1.5) --(0,1.5);
+    \draw (0,0) circle (1cm);
+\end{tikzpicture}
+
+\begin{tikzpicture}
+    \draw (-1.5,0) --(1.5,0); \draw (0,-1.5) --(0,1.5);
+    \draw (0,0) circle (1cm);
+    \draw[step=.5cm,gray,very thin] (-1.4,-1.4) grid (1.4,1.4);
+\end{tikzpicture}
+
+\begin{tikzpicture}
+    \draw (0,0) circle (1cm);
+    \filldraw[fill=green!20!white,draw=green!50!black](0,0)--(3mm,0mm)arc(0:30:3mm)--cycle;
+    \draw[red,very thick](30:1cm)-- node[left=1pt]{$\sin\alpha$} +(0,-0.5);
+    \draw[blue,very thick](30:1cm)++(0,-0.5) -- node[below=2pt]{$\cos\alpha$} (0,0);
+    \draw (30:1cm) -- (0,0);
+\end{tikzpicture}
+
+\begin{tikzpicture}[scale=2]
+    %\draw[-Stealth] (-1.5,0) --(1.5,0); \draw[-Stealth] (0,-1.5) --(0,1.5);
+    \draw (0,0) circle (1cm);
+    \draw[step=.5cm,gray,very thin] (-1.4,-1.4) grid (1.4,1.4);
+    \filldraw[fill=green!20!white,draw=green!50!black](0,0)--(3mm,0mm)arc(0:30:3mm)--cycle;
+    \draw[red,very thick](30:1cm)-- node[left=1pt] {$\sin\alpha$} +(0,-0.5);
+    \draw[blue,very thick](30:1cm)++(0,-0.5) -- node[below=2pt]{$\cos\alpha$} (0,0);
+    \draw (30:1cm) -- (0,0);
+\end{tikzpicture}
+
+\chapter{電気回路の作図}
+\section{CircuTikz}
+
+\begin{figure}[htbp]
+    \begin{center}
+        \begin{circuitikz}[american currents]
+            \draw (0,0)
+            to[sV=$V$] (0,2)
+            to[short] (2,2)
+            to[european resistor=$R$] (2,0)
+            to[short] (0,0);
+            \draw (2,2)
+            to[short] (4,2)
+            to[L=$L$] (4,0)
+            to[short] (2,0);
+            \draw (4,2)
+            to[short] (6,2)
+            to[C=$C$] (6,0)
+            to[short] (4,0);
+        \end{circuitikz}
+        \caption{RLC並列回路}
+    \end{center}
+\end{figure}
+
+\begin{figure}
+    \begin{center}
+        \begin{circuitikz}
+            \draw(0,0) to[R=$R_1$,i=$i_1$,v=$v_1$] (2,0);
+        \end{circuitikz}
+        \caption{抵抗(american)}
+    \end{center}
+\end{figure}
+
+\begin{figure}
+    \begin{center}
+        \begin{circuitikz}
+            \draw(0,0) to[european resistor=$R_1$] (2,0);
+        \end{circuitikz}
+        \caption{抵抗(european)}
+    \end{center}
+\end{figure}
+
+
+\tikz \draw(0,0) to[american inductor=$L_1$] (2,0);
+
+
+\tikz \draw(0,0) to[cute inductor=$L_1$] (2,0);
+
+\tikz \draw(0,0) to[C=$C_1$] (2,0);
+
+\tikz \draw(0,0) to[sV=$V_1$] (2,0);
+
+\tikz \draw(0,0) to[battery=5V] (2,0);
+
+\section{可変抵抗素子}
+
+\begin{figure}[htbp]
+    \begin{center}
+        \begin{circuitikz}
+            \draw(0,0) to[vR] (2,0);
+            \draw(3,0) to[pR] (5,0);
+            \draw(6,0) to[sR] (8,0);
+        \end{circuitikz}
+        \caption{可変抵抗(american)}
+    \end{center}
+\end{figure}
+
+\begin{figure}[htbp]
+    \begin{center}
+        \begin{circuitikz}[european]
+            \draw(0,0) to[vR] (2,0);
+            \draw(3,0) to[pR] (5,0);
+            \draw(6,0) to[sR] (8,0);
+        \end{circuitikz}
+        \caption{可変抵抗(european)}
+    \end{center}
+\end{figure}
+
+\begin{figure}[htbp]
+    \begin{center}
+        \begin{circuitikz}
+            \draw (0,0) to[pR, name=A] (2,0);
+            \draw (3,0) to[pR, wiper pos=0.8, name=B] (5,0);
+        \end{circuitikz}
+        \caption{可変抵抗(矢印位置)}
+    \end{center}
+\end{figure}
+
+\begin{figure}[htbp]
+    \begin{center}
+        \begin{circuitikz}
+            \ctikzset{resistors/zigs=9}
+            \draw (0,0) to[pR, name=A] (2,0);
+            \draw (3,0) to[pR, wiper pos=0.8, name=B] (5,0);
+            \ctikzset{resistors/width=1.5,resistors/zigs=9}
+            \draw (0,-1) to[pR, name=A] (4,-1);
+            \draw (5,-1) to[pR, wiper pos=0.8, name=B] (9,-1);
+        \end{circuitikz}
+        \caption{可変抵抗(長)}
+    \end{center}
+\end{figure}
+
+\begin{figure}[htbp]
+    \begin{center}
+        \begin{circuitikz}
+            \draw (0,0) to[pR, wiper pos =0.2, name=P] ++(0,2);
+            \draw (P.wiper) to[L] ++(-2,0);
+
+            \draw (3,0) to[pR, wiper pos =0.2, name=P2] ++(0,2);
+            \draw (P2.wiper) to[L,mirror] ++(-2,0);
+        \end{circuitikz}
+        \caption{可変抵抗と回路素子}
+    \end{center}
+\end{figure}
+
+\begin{figure}[htbp]
+    \begin{center}
+        \begin{circuitikz}
+            \draw (0,0) to[pR, wiper pos =0.2, name=P, mirror] ++(0,2);
+            \draw (P.wiper) to[L] ++(2,0);
+        \end{circuitikz}
+        \caption{可変抵抗（反転）と回路素子}
+    \end{center}
+\end{figure}
+
+\section{キャパシタ}
+
+\begin{figure}[htbp]
+    \begin{center}
+        \begin{circuitikz}
+            \draw(0,0) to[C] (2,0);
+            \draw(3,0) to[cC] (5,0);
+        \end{circuitikz}
+        \caption{キャパシタ}
+    \end{center}
+\end{figure}
+
+\begin{figure}[htbp]
+    \begin{center}
+        \begin{circuitikz}
+            \draw(0,0) to[vC] (2,0);
+            \draw(3,0) to[PZ] (5,0);
+            \draw(6,0) to[sC] (8,0);
+        \end{circuitikz}
+        \caption{可変キャパシタ,ピエゾ,キャパシタセンサ}
+    \end{center}
+\end{figure}
+
+\begin{figure}[htbp]
+    \begin{center}
+        \begin{circuitikz}
+            \draw(0,0) to[eC] (2,0);
+            \draw(5,0) to[eC,mirror] (3,0);
+        \end{circuitikz}
+        \caption{極性キャパシタ}
+    \end{center}
+\end{figure}
+
+\section{インダクタ}
+
+\begin{figure}[htbp]
+    \begin{center}
+        \begin{circuitikz}
+            \draw(0,0) to[L] (2,0);
+            \draw(3,0) to[vL] (5,0);
+            \draw(6,0) to[sL] (8,0);
+        \end{circuitikz}
+        \caption{インダクタ}
+    \end{center}
+\end{figure}
+
+\begin{figure}[htbp]
+    \begin{center}
+        \begin{circuitikz}[american]
+            \draw(0,0) to[L] (2,0);
+            \draw(3,0) to[vL] (5,0);
+            \draw(6,0) to[sL] (8,0);
+        \end{circuitikz}
+        \caption{インダクタ(American)}
+    \end{center}
+\end{figure}
+
+\begin{figure}[htbp]
+    \begin{center}
+        \begin{circuitikz}[european]
+            \draw(0,0) to[L] (2,0);
+            \draw(3,0) to[vL] (5,0);
+            \draw(6,0) to[sL] (8,0);
+        \end{circuitikz}
+        \caption{インダクタ(European)}
+    \end{center}
+\end{figure}
+
+\section{ダイオード}
+
+\begin{figure}[htbp]
+    \begin{center}
+        \begin{circuitikz}
+            \draw(0,0) to[D, l=Empty] (2,0);
+            \draw(3,0) to[D*,l=Full] (5,0);
+            \draw(6,0) to[D-,l=Stroke] (8,0);
+        \end{circuitikz}
+        \caption{ダイオード}
+    \end{center}
+\end{figure}
+
+\begin{figure}[htbp]
+    \begin{center}
+        \begin{circuitikz}
+            \draw(0,0) to[sD*,l=Schotkky] (2,0);
+            \draw(3,0) to[zD*,l=Zener] (5,0);
+            \draw(6,0) to[zzD*, l=ZZener] (8,0);
+            \draw(9,0) to[tD*,l=Tunnel] (10,0);
+        \end{circuitikz}
+        \caption{各種ダイオード}
+    \end{center}
+\end{figure}
+
+\begin{figure}[htbp]
+    \begin{center}
+        \begin{circuitikz}
+            \draw(-1.5,0) to ++(1.5,0) to[D*] (1.5,-1.5);
+            \draw(0,0) to[D*] (1.5,1.5);
+            \draw(1.5,-1.5) to[D*] (3,0);
+            \draw(1.5,1.5) to[D*] (3,0) to ++(1.5,0);
+
+            \draw(-1.5,-1.7) to (1.5,-1.7);
+            \draw(1.5,-1.7) to ++(0,0.2);
+            \draw(-1.5,1.7) to (1.5,1.7);
+            \draw(1.5,1.7) to ++(0,-0.2);
+        \end{circuitikz}
+        \caption{全波整流ダイオード}
+    \end{center}
+\end{figure}
+
+\section{グラウンド}
+
+\begin{figure}[htbp]
+    \begin{center}
+        \begin{circuitikz}
+            \draw(0,0) to node[ground]{} ++(0,0);
+            \draw(1,0) to node[tlground]{} ++(0,0);
+            \draw(2,0) to node[eground]{} ++(0,0);
+            \draw(3,0) to node[eground2]{} ++(0,0);
+        \end{circuitikz}
+        \caption{グラウンド}
+    \end{center}
+\end{figure}
+
+\begin{figure}[htbp]
+    \begin{center}
+        \begin{circuitikz}
+            \draw(0,0) to node[batteryshape]{} ++(1,0);
+            \draw(2,0) to node[battery1shape]{}++(1,0);
+            \draw(4,0) to node[battery2shape]{}++(1,0);
+        \end{circuitikz}
+        \caption{電池}
+    \end{center}
+\end{figure}
+
+\begin{figure}[htbp]
+    \begin{center}
+        \begin{circuitikz}
+            \draw(0,0) to [sqV] ++(1.5,0);
+            \draw(2,0) to [tV] ++(1.5,0);
+            \draw(4,0) to [pvsource] ++(1.5,0);
+        \end{circuitikz}
+        \caption{その他}
+    \end{center}
+\end{figure}
+
+\begin{figure}[htbp]
+    \begin{center}
+        \begin{circuitikz}
+            \draw(0,0) to [smeter] ++(1,0);
+            \draw(2,0) to [qiprobe] ++(1,0);
+            \draw(4,0) to [qvprobe] ++(1,0);
+            \draw(6,0) to [qpprobe] ++(1,0);
+        \end{circuitikz}
+        \caption{メーター(ピクチャー)}
+    \end{center}
+\end{figure}
+
+\begin{figure}[htbp]
+    \begin{center}
+        \begin{circuitikz}
+            \draw(0,0) to [oscope] ++(1,0);
+            \draw(2,0.5) to [iloop] ++(0,-1);
+        \end{circuitikz}
+        \caption{オシロスコープ・カレントループ}
+    \end{center}
+\end{figure}
+
+\begin{figure}[htbp]
+    \begin{center}
+        \begin{circuitikz}[american]
+            \draw (3,0) to [iloop, name=I] ++(0,-2) node[ground] (GND){};
+            \draw (I.i) -- ++(0.5,0) node[oscopeshape, anchor=left, name=O]{};
+            \draw (O.south) -- (O.south |- GND) node[ground]{};
+        \end{circuitikz}
+        \caption{オシロスコープ接続}
+    \end{center}
+\end{figure}
+
+\begin{thebibliography}{9}
+    \bibitem{Ono}
+    M. Ono et al., TRISTAN RF system with normal conducting cavity, KEK Internal 87-6 (1987)
+\end{thebibliography}
+%
+\end{document}
