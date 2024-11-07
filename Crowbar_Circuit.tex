@@ -23,6 +23,7 @@
 \usephysicsmodule{diagmat}  % 対角行列
 \usephysicsmodule[showleft=2,showtop=2]{xmat}   % n×m行列
 %--- physics2 END ---%
+
 % 数式環境
 \usepackage{amsmath,amssymb,amsthm}
 % ベクトル
@@ -42,12 +43,14 @@
 % Landau記号
 \newcommand{\order}[1]{\mathcal{O}\ab(#1)}
 %--- physicsパッケージの\vbコマンドを再現 --%
+%
 \makeatletter
 \newcommand\vb{\@ifstar\boldsymbol\mathbf}
 \newcommand\va[1]{\@ifstar{\vec{#1}}{\vec{\mathrm{#1}}}}
 \newcommand\vu[1]{%
 \@ifstar{\hat{\boldsymbol{#1}}}{\hat{\mathbf{#1}}}}
 \makeatother
+%
 %--- physicsパッケージの\vbコマンドを再現 END --%
 %--- 勾配・発散・回転 ---%
 % 勾配
@@ -74,7 +77,6 @@
 \renewcommand{\CancelColor}{\color{red}}
 %
 %---------- newcommand END ----------% 
-
 % \usepackage[hang,small,bf]{caption}
 % \usepackage[subrefformat=parens]{subcaption}
 % \captionsetup{compatibility=false}
@@ -95,7 +97,7 @@
 }
 
 \begin{document}
-\title{Crowbar回路}
+\title{SuperKEKB加速器KPSのCrowbar回路}
 \author{吉本 伸一}
 \maketitle
 \tableofcontents
@@ -114,6 +116,8 @@
 \end{figure}
 
 \chapter{クローバー短絡試験}
+
+
 
 \begin{figure}[htbp]
   %\begin{figure}[!htt]
